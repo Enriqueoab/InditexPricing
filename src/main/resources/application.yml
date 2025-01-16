@@ -47,3 +47,8 @@ spring:
     batch:
       jdbc:
         initialize-schema: always
+
+comms:
+  api:
+    user-name: "Enrique"
+    pass: "inditexTask"
