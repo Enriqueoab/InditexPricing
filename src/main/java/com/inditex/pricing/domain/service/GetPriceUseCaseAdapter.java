@@ -5,12 +5,18 @@ import com.inditex.pricing.application.request.PriceRequest;
 import com.inditex.pricing.application.response.PriceResponse;
 import com.inditex.pricing.domain.ports.out.GetPricePort;
 import com.inditex.pricing.utils.exception.PriceNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
+@Slf4j
+@Service
 public class GetPriceUseCaseAdapter implements GetPriceUseCase {
 
     private final GetPricePort getPricePort;
+
+    public GetPriceUseCaseAdapter(GetPricePort getPricePort) {
+        this.getPricePort = getPricePort;
+    }
 
     @Override
     public PriceResponse getApplicablePrice(PriceRequest request) throws PriceNotFoundException {
