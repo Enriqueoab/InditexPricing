@@ -18,7 +18,6 @@ public class GetPriceAdapter implements GetPricePort {
 
     @Override
     public Price getApplicablePrice(PriceRequest request) throws PriceNotFoundException {
-        System.err.println("getApplicablePrice method response....");
          return priceRepository
                  .findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(
                          request.getProductId(), request.getBrandId(), request.getApplicationDate(), request.getApplicationDate());

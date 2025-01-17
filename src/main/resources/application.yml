@@ -5,7 +5,7 @@ server:
 
 comms:
   api:
-    version: "v1"
+    version: "/v1"
 
 springdoc:
   default-produces-media-type: application/json
