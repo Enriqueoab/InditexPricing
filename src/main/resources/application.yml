@@ -3,18 +3,16 @@ server:
   error:
     include-message: always
 
+comms:
+  api:
+    version: "v1"
+
 springdoc:
   default-produces-media-type: application/json
 
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        web: DEBUG
-
 spring:
   application:
-    name: Inditex-task
+    name: inditex-task
   profiles:
     active:
       - local
@@ -42,13 +40,13 @@ spring:
   datasource:
     url: jdbc:h2:file:./src/main/resources/db/InditexPricingTaskDb
     driverClassName: org.h2.Driver
-    username: sa
-    password:
+    username: ${comms.api.user-name}
+    password: ${comms.api.pass}
     batch:
       jdbc:
         initialize-schema: always
 
 comms:
-  api:
+  api: # Credentials just for local env
     user-name: "Enrique"
     pass: "inditexTask"
