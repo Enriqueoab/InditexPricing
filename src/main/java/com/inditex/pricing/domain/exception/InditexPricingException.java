@@ -1,4 +1,4 @@
-package com.inditex.pricing.utils.exception;
+package com.inditex.pricing.domain.exception;
 
 import java.io.Serial;
 

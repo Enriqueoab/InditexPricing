@@ -1,4 +1,4 @@
-package com.inditex.pricing.utils.exception;
+package com.inditex.pricing.domain.exception;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.lang.annotation.ElementType;

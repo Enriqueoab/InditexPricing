@@ -1,4 +1,4 @@
-package com.inditex.pricing.application.request;
+package com.inditex.pricing.web.request;
 
 import java.time.LocalDateTime;
 
