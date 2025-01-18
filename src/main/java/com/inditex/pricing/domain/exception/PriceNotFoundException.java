@@ -11,6 +11,6 @@ public class PriceNotFoundException extends InditexPricingException {
     private static final long serialVersionUID = 1453316100622498951L;
 
     public PriceNotFoundException(String message) {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }
