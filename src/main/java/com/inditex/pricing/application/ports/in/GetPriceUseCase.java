@@ -1,9 +1,10 @@
 package com.inditex.pricing.application.ports.in;
 
-import com.inditex.pricing.domain.model.Price;
+import com.inditex.pricing.domain.exception.DateTimeFormatException;
 import com.inditex.pricing.web.request.PriceRequest;
 import com.inditex.pricing.domain.exception.PriceNotFoundException;
+import com.inditex.pricing.web.response.PriceResponse;
 
 public interface GetPriceUseCase {
-    Price getApplicablePrice(PriceRequest request) throws PriceNotFoundException;
+    PriceResponse getApplicablePrice(PriceRequest request) throws PriceNotFoundException, DateTimeFormatException;
 }
