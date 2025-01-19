@@ -7,6 +7,12 @@ comms:
   api:
     version: "/v1"
 
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web: DEBUG
+
 springdoc:
   default-produces-media-type: application/json
 
