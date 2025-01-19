@@ -18,7 +18,7 @@ springdoc:
 
 spring:
   application:
-    name: inditex-task
+    name: Inditex-task
   profiles:
     active:
       - local
@@ -35,6 +35,12 @@ spring:
   sql:
     init:
       mode: always
+
+swagger:
+  application-url: http://localhost:${server.port}
+  title: ${spring.application.name}
+  version: 0.3.5
+  application-description: Documentation of the Inditex task endpoint
 
 # Local profile settings
 ---
