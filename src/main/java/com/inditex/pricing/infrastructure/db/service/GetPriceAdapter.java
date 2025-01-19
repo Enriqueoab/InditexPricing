@@ -26,7 +26,7 @@ public class GetPriceAdapter implements GetPricePort {
 
         if (price == null) {
             throw new PriceNotFoundException(ExceptionMessage.PRICE_NOT_FOUND+", productId: " + request.productId() +", brandId: "
-                    + request.productId() +" and applicationDate: "+ applicationDate);
+                    + request.brandId() +" and applicationDate: "+ applicationDate);
         }
 
         return price;

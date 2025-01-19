@@ -10,6 +10,5 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
             int productId,
             int brandId,
             LocalDateTime applyDate,
-            LocalDateTime sameApplyDate); // TODO: Is it a cleaner solution (Using same variable)
-
+            LocalDateTime sameApplyDate);
 }

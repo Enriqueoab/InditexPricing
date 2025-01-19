@@ -4,8 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 
 @Entity
 public class Price {
@@ -28,6 +28,21 @@ public class Price {
 
     private String curr; //TODO: Make it an enum
 
+    public Price(int brandId, int productId, int priceList, LocalDateTime startDate, LocalDateTime endDate,
+                 boolean priority, double price, String curr) {
+        this.brandId = brandId;
+        this.productId = productId;
+        this.priceList = priceList;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.priority = priority;
+        this.price = price;
+        this.curr = curr;
+    }
+
+    public Price() {
+
+    }
 
     public int getBrandId() {
         return brandId;
