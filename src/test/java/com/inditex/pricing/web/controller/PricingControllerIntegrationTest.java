@@ -1,23 +1,20 @@
 package com.inditex.pricing.web.controller;
 
+import com.inditex.pricing.TestUtils;
 import com.inditex.pricing.application.service.GetPriceUseCaseAdapter;
 import com.inditex.pricing.domain.constants.ExceptionMessage;
 import com.inditex.pricing.domain.exception.DateTimeFormatException;
 import com.inditex.pricing.domain.exception.PriceNotFoundException;
 import com.inditex.pricing.infrastructure.db.repo.PriceRepository;
-import com.inditex.pricing.web.request.PriceRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class PricingControllerIntegrationTest {
+public class PricingControllerIntegrationTest extends TestUtils {
 
     @Mock
     private GetPriceUseCaseAdapter pricingService;
@@ -30,55 +27,162 @@ public class PricingControllerIntegrationTest {
 
     /**
      * Method under test: {@link PricingController#getPrice(int, int, String)}
-     * Integration test
+     * Integration test:
+     *
+     * Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)
+     */
+
+    @Test
+    void testGetApplicablePrice_Success_TestRequired_Test1() throws PriceNotFoundException, DateTimeFormatException {
+
+        var price = pricingController.getPrice(requestedTest1.productId(), requestedTest1.brandId(), requestedTest1.applicationDate());
+        var applyDate = LocalDateTime.parse(requestedTest1.applicationDate());
+
+        var dbPrice = priceRepo.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc
+                (requestedTest1.productId(), requestedTest1.brandId(), applyDate, applyDate);
+
+        assertNotNull(dbPrice);
+        assertNotNull(price);
+        assertEquals(35.5, dbPrice.getPrice());
+        assertEquals(price.price(), dbPrice.getPrice());
+        assertEquals(price.brandId(), dbPrice.getBrandId());
+    }
+
+
+    /**
+     * Method under test: {@link PricingController#getPrice(int, int, String)}
+     * Integration test:
+     *
+     * Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)
+     */
+    @Test
+    void testGetApplicablePrice_Success_TestRequired_Test2() throws PriceNotFoundException, DateTimeFormatException {
+
+        var price = pricingController.getPrice(requestedTest2.productId(), requestedTest2.brandId(), requestedTest2.applicationDate());
+        var applyDate = LocalDateTime.parse(requestedTest2.applicationDate());
+
+        var dbPrice = priceRepo.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc
+                (requestedTest2.productId(), requestedTest2.brandId(), applyDate, applyDate);
+
+        assertNotNull(dbPrice);
+        assertNotNull(price);
+        assertEquals(25.45, dbPrice.getPrice());
+        assertEquals(price.price(), dbPrice.getPrice());
+        assertEquals(price.brandId(), dbPrice.getBrandId());
+    }
+
+    /**
+     * Method under test: {@link PricingController#getPrice(int, int, String)}
+     * Integration test:
+     *
+     * Test 3: petición a las 21:00 del día 14 del producto 35455   para la brand 1 (ZARA)
+     */
+    @Test
+    void testGetApplicablePrice_Success_TestRequired_Test3() throws PriceNotFoundException, DateTimeFormatException {
+
+        var price = pricingController.getPrice(requestedTest3.productId(), requestedTest3.brandId(), requestedTest3.applicationDate());
+        var applyDate = LocalDateTime.parse(requestedTest3.applicationDate());
+
+        var dbPrice = priceRepo.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc
+                (requestedTest3.productId(), requestedTest3.brandId(), applyDate, applyDate);
+
+        assertNotNull(dbPrice);
+        assertNotNull(price);
+        assertEquals(35.5, dbPrice.getPrice());
+        assertEquals(price.price(), dbPrice.getPrice());
+        assertEquals(price.brandId(), dbPrice.getBrandId());
+    }
+
+    /**
+     * Method under test: {@link PricingController#getPrice(int, int, String)}
+     * Integration test:
+     *
+     * Test 4: petición a las 10:00 del día 15 del producto 35455   para la brand 1 (ZARA)
+     */
+    @Test
+    void testGetApplicablePrice_Success_TestRequired_Test4() throws PriceNotFoundException, DateTimeFormatException {
+
+        var price = pricingController.getPrice(requestedTest4.productId(), requestedTest4.brandId(), requestedTest4.applicationDate());
+        var applyDate = LocalDateTime.parse(requestedTest4.applicationDate());
+
+        var dbPrice = priceRepo.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc
+                (requestedTest4.productId(), requestedTest4.brandId(), applyDate, applyDate);
+
+        assertNotNull(dbPrice);
+        assertNotNull(price);
+        assertEquals(30.5, dbPrice.getPrice());
+        assertEquals(price.price(), dbPrice.getPrice());
+        assertEquals(price.brandId(), dbPrice.getBrandId());
+    }
+
+    /**
+     * Method under test: {@link PricingController#getPrice(int, int, String)}
+     * Integration test:
+     *
+     * Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)
+     */
+    @Test
+    void testGetApplicablePrice_Success_TestRequired_Test5() throws PriceNotFoundException, DateTimeFormatException {
+
+        var price = pricingController.getPrice(requestedTest5.productId(), requestedTest5.brandId(), requestedTest5.applicationDate());
+        var applyDate = LocalDateTime.parse(requestedTest5.applicationDate());
+
+        var dbPrice = priceRepo.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc
+                (requestedTest5.productId(), requestedTest5.brandId(), applyDate, applyDate);
+
+        assertNotNull(dbPrice);
+        assertNotNull(price);
+        assertEquals(38.95, dbPrice.getPrice());
+        assertEquals(price.price(), dbPrice.getPrice());
+        assertEquals(price.brandId(), dbPrice.getBrandId());
+    }
+
+    /**
+     * Method under test: {@link PricingController#getPrice(int, int, String)}
+     * General Integration test:
+     *
      */
     @Test
     void testGetApplicablePrice_Success() throws PriceNotFoundException, DateTimeFormatException {
 
-        var request = new PriceRequest(35455, 1, "2020-06-15T16:30:00");
-
-        var price = pricingController.getPrice(request.productId(), request.brandId(), request.applicationDate());
-        System.err.println(price);
-        var applyDate = LocalDateTime.parse(request.applicationDate());
+        var price = pricingController.getPrice(realRequest.productId(), realRequest.brandId(), realRequest.applicationDate());
+        var applyDate = LocalDateTime.parse(realRequest.applicationDate());
 
         var dbPrice = priceRepo.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc
-                (request.productId(), request.brandId(), applyDate, applyDate);
+                (realRequest.productId(), realRequest.brandId(), applyDate, applyDate);
 
         assertNotNull(dbPrice);
         assertNotNull(price);
-        assertEquals(Double.valueOf(38.95), dbPrice.getPrice());
-        assertEquals(35455, price.productId());
+        assertEquals(REAL_PRICE, dbPrice.getPrice());
+        assertEquals(REAL_PRODUCT_ID, price.productId());
         assertEquals(price.price(), dbPrice.getPrice());
         assertEquals(price.brandId(), dbPrice.getBrandId());
     }
 
     @Test
     void testGetApplicablePrice_PriceNotFoundException() throws PriceNotFoundException, DateTimeFormatException {
-        var request = new PriceRequest(35455, 2, "2020-06-15T16:30:00");
 
-        var applyDate = LocalDateTime.parse(request.applicationDate());
-
+        var applyDate = LocalDateTime.parse(realRequestNoBrandId.applicationDate());
         var priceNotFound = assertThrows(
                 PriceNotFoundException.class,
-                () -> pricingController.getPrice(request.productId(), request.brandId(), request.applicationDate())
+                () -> pricingController.getPrice(realRequestNoBrandId.productId(), realRequestNoBrandId.brandId(),
+                        realRequestNoBrandId.applicationDate())
         );
 
         assertEquals(
-                ExceptionMessage.PRICE_NOT_FOUND+", productId: " + request.productId() +", brandId: "
-                        + request.brandId() +" and applicationDate: "+ applyDate,
-
+                ExceptionMessage.PRICE_NOT_FOUND + ", productId: " + realRequestNoBrandId.productId() + ", brandId: "
+                        + realRequestNoBrandId.brandId() + " and applicationDate: " + applyDate,
                 priceNotFound.getMessage()
         );
     }
 
     @Test
     void testGetApplicablePrice_DateTimeFormatException() throws PriceNotFoundException, DateTimeFormatException {
-        var request = new PriceRequest(35455, 1, "2020-06-15");
-
 
         var dateFormatException = assertThrows(
                 DateTimeFormatException.class,
-                () -> pricingController.getPrice(request.productId(), request.brandId(), request.applicationDate())
+                () -> pricingController.getPrice(realRequestWrongDate.productId(), realRequestWrongDate.brandId(),
+                        realRequestWrongDate.applicationDate())
         );
         assertEquals(ExceptionMessage.WRONG_DATE_FORMAT, dateFormatException.getMessage());
     }

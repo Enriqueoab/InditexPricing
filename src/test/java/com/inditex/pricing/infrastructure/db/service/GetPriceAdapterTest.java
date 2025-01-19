@@ -1,5 +1,6 @@
 package com.inditex.pricing.infrastructure.db.service;
 
+import com.inditex.pricing.TestUtils;
 import com.inditex.pricing.domain.constants.ExceptionMessage;
 import com.inditex.pricing.domain.exception.PriceNotFoundException;
 import com.inditex.pricing.domain.model.Price;
@@ -12,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class GetPriceAdapterTest {
+class GetPriceAdapterTest extends TestUtils {
     @InjectMocks
     private GetPriceAdapter getPriceAdapter;
 
@@ -35,13 +34,12 @@ class GetPriceAdapterTest {
      */
     @Test
     void testGetApplicablePrice_Success() throws PriceNotFoundException {
-        var request = new PriceRequest(1, 35455, "2023-06-14T10:00:00");
-        var expectedPrice = new Price(35455, 1, 1, LocalDateTime.parse("2023-06-14T10:00:00"),
-                LocalDateTime.parse("2023-06-14T23:59:59"), true, Double.valueOf(35.50), "");
+        var expectedPrice = new Price(REAL_BRAND_ID, REAL_PRODUCT_ID, 1, LocalDateTime.parse("2020-06-15T16:00:00"),
+                LocalDateTime.parse("2020-12-31T23:59:59"), true, 38.95, "EUR");
 
-        when(getPriceAdapter.getPrice(request, LocalDateTime.parse("2023-06-14T10:00:00"))).thenReturn(expectedPrice);
+        when(getPriceAdapter.getPrice(realRequest, LocalDateTime.parse(APPLICATION_DATE))).thenReturn(expectedPrice);
 
-        var result = getPriceAdapter.getApplicablePrice(request);
+        var result = getPriceAdapter.getApplicablePrice(realRequest);
 
         assertEquals(expectedPrice, result);
     }
@@ -49,17 +47,15 @@ class GetPriceAdapterTest {
     @Test
     void testGetApplicablePrice_PriceNotFoundException() {
 
-        var request = new PriceRequest(1, 35455, "2020-06-15T16:30:00");
-
-        when(getPriceAdapter.getPrice(request, LocalDateTime.parse(request.applicationDate()))).thenReturn(null);
+        when(getPriceAdapter.getPrice(realRequest, LocalDateTime.parse(realRequest.applicationDate()))).thenReturn(null);
 
         var exception = assertThrows(PriceNotFoundException.class, () -> {
-            getPriceAdapter.getApplicablePrice(request);
+            getPriceAdapter.getApplicablePrice(realRequest);
         });
 
         assertEquals(
-                ExceptionMessage.PRICE_NOT_FOUND + ", productId: " + request.productId() + ", brandId: "
-                        + request.brandId() + " and applicationDate: " + LocalDateTime.parse(request.applicationDate()),
+                ExceptionMessage.PRICE_NOT_FOUND + ", productId: " + realRequest.productId() + ", brandId: "
+                        + realRequest.brandId() + " and applicationDate: " + LocalDateTime.parse(realRequest.applicationDate()),
                 exception.getMessage()
         );
     }
@@ -73,12 +69,11 @@ class GetPriceAdapterTest {
         Price price = new Price();
         when(priceRepository.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(anyInt(),
                 anyInt(), Mockito.<LocalDateTime>any(), Mockito.<LocalDateTime>any())).thenReturn(price);
-        PriceRequest request = new PriceRequest(1, 1, "2020-03-01");
 
-        Price actualPrice = getPriceAdapter.getPrice(request, LocalDate.of(1970, 1, 1).atStartOfDay());
+        Price actualPrice = getPriceAdapter.getPrice(realRequest, LocalDateTime.parse(APPLICATION_DATE));
 
-        verify(priceRepository).findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(eq(1),
-                eq(1), isA(LocalDateTime.class), isA(LocalDateTime.class));
+        verify(priceRepository).findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(eq(REAL_PRODUCT_ID),
+                eq(REAL_BRAND_ID), isA(LocalDateTime.class), isA(LocalDateTime.class));
         assertSame(price, actualPrice);
     }
 }
