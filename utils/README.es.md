@@ -2,7 +2,7 @@
 
 ***Tarea de repositorio para Inditex realizada por Enrique Barca***
 
-[![en](https://img.shields.io/badge/lang-English-green.svg)](./README.md)
+[![en](https://img.shields.io/badge/lang-English-green.svg)](../README.md)
 
 
 ## 1. Cómo ejecutar la aplicación y los tests.
