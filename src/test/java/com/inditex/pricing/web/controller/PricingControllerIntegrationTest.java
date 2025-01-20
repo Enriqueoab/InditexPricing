@@ -162,7 +162,6 @@ public class PricingControllerIntegrationTest extends TestUtils {
     @Test
     void testGetApplicablePrice_PriceNotFoundException() throws PriceNotFoundException, DateTimeFormatException {
 
-        var applyDate = LocalDateTime.parse(realRequestNoBrandId.applicationDate());
         var priceNotFound = assertThrows(
                 PriceNotFoundException.class,
                 () -> pricingController.getPrice(realRequestNoBrandId.productId(), realRequestNoBrandId.brandId(),
@@ -171,7 +170,7 @@ public class PricingControllerIntegrationTest extends TestUtils {
 
         assertEquals(
                 ExceptionMessage.PRICE_NOT_FOUND + ", productId: " + realRequestNoBrandId.productId() + ", brandId: "
-                        + realRequestNoBrandId.brandId() + " and applicationDate: " + applyDate,
+                        + realRequestNoBrandId.brandId() + " and applicationDate: " + realRequestNoBrandId.applicationDate(),
                 priceNotFound.getMessage()
         );
     }
