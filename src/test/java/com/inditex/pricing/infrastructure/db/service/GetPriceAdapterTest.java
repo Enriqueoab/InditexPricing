@@ -37,7 +37,7 @@ class GetPriceAdapterTest extends TestUtils {
         var expectedPrice = new Price(REAL_BRAND_ID, REAL_PRODUCT_ID, 1, LocalDateTime.parse("2020-06-15T16:00:00"),
                 LocalDateTime.parse("2020-12-31T23:59:59"), true, 38.95, "EUR");
 
-        when(getPriceAdapter.getPrice(realRequest, LocalDateTime.parse(APPLICATION_DATE))).thenReturn(expectedPrice);
+        when(getPriceAdapter.getPrice(realRequest)).thenReturn(expectedPrice);
 
         var result = getPriceAdapter.getApplicablePrice(realRequest);
 
@@ -47,7 +47,7 @@ class GetPriceAdapterTest extends TestUtils {
     @Test
     void testGetApplicablePrice_PriceNotFoundException() {
 
-        when(getPriceAdapter.getPrice(realRequest, LocalDateTime.parse(realRequest.applicationDate()))).thenReturn(null);
+        when(getPriceAdapter.getPrice(realRequest)).thenReturn(null);
 
         var exception = assertThrows(PriceNotFoundException.class, () -> {
             getPriceAdapter.getApplicablePrice(realRequest);
@@ -55,7 +55,7 @@ class GetPriceAdapterTest extends TestUtils {
 
         assertEquals(
                 ExceptionMessage.PRICE_NOT_FOUND + ", productId: " + realRequest.productId() + ", brandId: "
-                        + realRequest.brandId() + " and applicationDate: " + LocalDateTime.parse(realRequest.applicationDate()),
+                        + realRequest.brandId() + " and applicationDate: " + realRequest.applicationDate(),
                 exception.getMessage()
         );
     }
@@ -70,7 +70,7 @@ class GetPriceAdapterTest extends TestUtils {
         when(priceRepository.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(anyInt(),
                 anyInt(), Mockito.<LocalDateTime>any(), Mockito.<LocalDateTime>any())).thenReturn(price);
 
-        Price actualPrice = getPriceAdapter.getPrice(realRequest, LocalDateTime.parse(APPLICATION_DATE));
+        Price actualPrice = getPriceAdapter.getPrice(realRequest);
 
         verify(priceRepository).findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(eq(REAL_PRODUCT_ID),
                 eq(REAL_BRAND_ID), isA(LocalDateTime.class), isA(LocalDateTime.class));
