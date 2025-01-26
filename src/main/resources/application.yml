@@ -62,3 +62,27 @@ comms:
   api: # Credentials just for local env
     user-name: "Enrique"
     pass: "inditexTask"
+
+---
+# Test profile settings
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  security:
+    enabled: false
+
+  datasource:
+    url: jdbc:h2:file:./src/main/resources/db/InditexPricingTaskDb
+    driverClassName: org.h2.Driver
+    username: ${comms.api.user-name}
+    password: ${comms.api.pass}
+    batch:
+      jdbc:
+        initialize-schema: always
+
+comms:
+  api: # Credentials just for local env
+    user-name: "Enrique"
+    pass: "inditexTask"

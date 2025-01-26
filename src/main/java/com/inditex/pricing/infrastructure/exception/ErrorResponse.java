@@ -1,4 +1,4 @@
-package com.inditex.pricing.domain.exception;
+package com.inditex.pricing.infrastructure.exception;
 
 public class ErrorResponse {
     private int status;
@@ -21,7 +21,7 @@ public class ErrorResponse {
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public void setMessage(String message) {
@@ -29,7 +29,7 @@ public class ErrorResponse {
     }
 
     public long getTimestamp() {
-        return timestamp;
+        return this.timestamp;
     }
 
     public void setTimestamp(long timestamp) {

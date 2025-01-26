@@ -1,7 +1,8 @@
 package com.inditex.pricing;
 
-import com.inditex.pricing.web.request.PriceRequest;
-import com.inditex.pricing.web.response.PriceResponse;
+import com.inditex.pricing.infrastructure.model.Price;
+import com.inditex.pricing.infrastructure.web.request.PriceRequest;
+import com.inditex.pricing.infrastructure.web.response.PriceResponse;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
@@ -20,6 +21,8 @@ public abstract class TestUtils {
     protected static final Double REAL_PRICE = 38.95;
 
     protected static final int REAL_PRODUCT_ID = 35455;
+
+    protected static final String CURR = "EUR";
 
     protected static final int REAL_BRAND_ID = 1;
 
@@ -49,6 +52,8 @@ public abstract class TestUtils {
 
     protected PriceRequest realRequest;
 
+    protected Price price;
+
     @BeforeEach
     public void init() {
 
@@ -64,6 +69,8 @@ public abstract class TestUtils {
         requestedTest5 = new PriceRequest(REAL_PRODUCT_ID, REAL_BRAND_ID, "2020-06-16T21:00:00");
 
         priceResponse = new PriceResponse(PRODUCT_ID, BRAND_ID, START_DATE, END_DATE, PRICE);
+
+        price = new Price(BRAND_ID, PRODUCT_ID, 1, START_DATE, END_DATE, true, PRICE, CURR);
 
     }
 

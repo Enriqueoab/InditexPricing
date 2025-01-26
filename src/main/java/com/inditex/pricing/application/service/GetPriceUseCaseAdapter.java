@@ -1,20 +1,17 @@
 package com.inditex.pricing.application.service;
 
 import com.inditex.pricing.application.ports.in.GetPriceUseCase;
-import com.inditex.pricing.domain.exception.DateTimeFormatException;
-import com.inditex.pricing.domain.model.Price;
-import com.inditex.pricing.domain.validation.DataValidator;
-import com.inditex.pricing.infrastructure.LoggerConfig;
-import com.inditex.pricing.web.request.PriceRequest;
 import com.inditex.pricing.application.ports.out.GetPricePort;
-import com.inditex.pricing.domain.exception.PriceNotFoundException;
-import com.inditex.pricing.web.response.PriceResponse;
+import com.inditex.pricing.infrastructure.LoggerConfig;
+import com.inditex.pricing.infrastructure.exception.DateTimeFormatException;
+import com.inditex.pricing.infrastructure.exception.PriceNotFoundException;
+import com.inditex.pricing.infrastructure.model.Price;
+import com.inditex.pricing.infrastructure.validation.DataValidator;
+import com.inditex.pricing.infrastructure.web.request.PriceRequest;
+import com.inditex.pricing.infrastructure.web.response.PriceResponse;
 import org.apache.logging.log4j.LogManager;
-
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class GetPriceUseCaseAdapter implements GetPriceUseCase {

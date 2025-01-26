@@ -1,10 +1,10 @@
-package com.inditex.pricing.web.controller;
+package com.inditex.pricing.infrastructure.web.controller;
 
 import com.inditex.pricing.application.ports.in.GetPriceUseCase;
-import com.inditex.pricing.domain.exception.DateTimeFormatException;
-import com.inditex.pricing.domain.exception.PriceNotFoundException;
-import com.inditex.pricing.web.request.PriceRequest;
-import com.inditex.pricing.web.response.PriceResponse;
+import com.inditex.pricing.infrastructure.exception.DateTimeFormatException;
+import com.inditex.pricing.infrastructure.exception.PriceNotFoundException;
+import com.inditex.pricing.infrastructure.web.request.PriceRequest;
+import com.inditex.pricing.infrastructure.web.response.PriceResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Price")
-@RequestMapping("/v1/price")
+@RequestMapping("/v1/prices")
 public class PricingController {
     private final GetPriceUseCase getPriceUseCase;
 
@@ -36,7 +36,7 @@ public class PricingController {
     @GetMapping
     public PriceResponse getPrice(@RequestParam int productId, @RequestParam int brandId,
                                   @RequestParam String applicationDate) throws PriceNotFoundException, DateTimeFormatException {
-        var request = new PriceRequest(productId, brandId, applicationDate);
+        PriceRequest request = new PriceRequest(productId, brandId, applicationDate);
         return getPriceUseCase.getApplicablePrice(request);
     }
 

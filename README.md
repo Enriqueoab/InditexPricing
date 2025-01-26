@@ -85,16 +85,49 @@ We only have to open Postman and import the file ```"Collections" tab > "Import"
 
 ***Of course the endpoint has other edge cases in case the information is missing, the IDs has wrong format or the parameters are not send***
 
-## 5. What did I do?
+## Problem Description
+- The objective of this project is to build a Spring Boot application that exposes a REST endpoint to provide
+pricing details for products based on the following inputs:
+
+#### Input Parameters
+1. Application Date: The date and time for which the pricing needs to be checked.
+2. Product ID: The unique identifier of the product.
+3. Brand ID: The identifier of the brand or store chain.
+
+#### Expected Output
+
+The endpoint should return:
+
+1. Product ID: The unique identifier of the product.
+2. Brand ID: The identifier of the store chain.
+3. Rate to Apply (Tariff): The applicable rate for the product.
+4. Application Dates: The start and end dates when the price is valid.
+5. Final Price: The calculated price to apply.
+
+#### Solution Overview
+
+- This Spring Boot application processes the input parameters and determines the appropriate price for a given product at a specific date and store chain. The application considers multiple price lists and selects the one with:
+
+- The highest priority.
+- An active date range that matches the input date.
+
+#### Use Case Example
+ 
+- If multiple prices exist for the same product and brand, the API selects the one with:
+
+1. The highest priority.
+2. A validity period that includes the provided date.
+
+### 5.1 What did I do?
 
 - This is a small example of some of my skills developing a ***hexagonal architecture application DDD based***.
 - I add a basic *security* configuration as we can see in the [security class,](src/main/java/com/inditex/pricing/infrastructure/config/security/SecurityConfig.java)
 and we can test going to our postman once we have the collection exported, going to the "Authorization" tab.
 - I create the ***[Dockerfile](./Dockerfile)*** and the ***[docker-compose](./docker-compose.yml)*** for a easier way to
 build and run the application and the h2 DB instance.
-- I create custom exceptions such us ***[DateTimeFormatException](src/main/java/com/inditex/pricing/domain/exception/DateTimeFormatException.java)***
-and ***[PriceNotFoundException](src/main/java/com/inditex/pricing/domain/exception/PriceNotFoundException.java)***, for a 
-better back-end communication, without forgetting the global exception handling ***[GlobalExceptionHandler](src/main/java/com/inditex/pricing/domain/exception/GlobalExceptionHandler.java)***
+- I create custom exceptions such us ***[DateTimeFormatException](src/main/java/com/inditex/pricing/infrastructure/exception/DateTimeFormatException.java)***
+and ***[PriceNotFoundException](src/main/java/com/inditex/pricing/infrastructure/exception/PriceNotFoundException.java)***, for a 
+better back-end communication, without forgetting the global exception handling ***[GlobalExceptionHandler](src/main/java/com/inditex/pricing/infrastructure/exception/GlobalExceptionHandler.java)***
 where we can see the method created to handle most of the general exceptions and all the custom that we may create in the future.
 
 ## 6. Patterns used:
@@ -123,7 +156,7 @@ Beans defined in the Spring context are singletons by default unless otherwise s
 ### Template Method Pattern
 - Role: Defines the skeleton of an algorithm in a base class and lets subclasses override specific steps.
 - Example:
-Such as what I did with the exception father class ***[InditexPricingException](src/main/java/com/inditex/pricing/domain/exception/InditexPricingException.java)***.
+Such as what I did with the exception father class ***[InditexPricingException](src/main/java/com/inditex/pricing/infrastructure/exception/InditexPricingException.java)***.
 
 ### Dependency Injection (DI) Pattern
 - Role: Promotes loose coupling by injecting dependencies into components.
@@ -133,10 +166,26 @@ Spring Boot automatically injects dependencies like PriceRepository into service
 ### DTO (Data Transfer Object) Pattern
 - Role: Facilitates the transfer of data between layers.
 - Examples:
-***[PriceRequest](src/main/java/com/inditex/pricing/web/request/PriceRequest.java)*** and ***[PriceResponse](src/main/java/com/inditex/pricing/web/response/PriceResponse.java)***
+***[PriceRequest](src/main/java/com/inditex/pricing/infrastructure/web/request/PriceRequest.java)*** and ***[PriceResponse](src/main/java/com/inditex/pricing/infrastructure/web/response/PriceResponse.java)***
 act as DTOs to pass data between the controller, service, and client.
 
 ### Decorator Pattern
 - Role: Adds responsibilities to objects dynamically.
 - Example:
 Middleware-like components in the application layer for logging or security.
+
+## Testing
+
+#### Run Tests
+
+To execute unit and integration tests:
+
+```bash
+mvn test
+```
+Code Coverage
+The project integrates with JaCoCo for code coverage. After running the tests, the coverage report is available at:
+
+```bash
+target/site/jacoco/index.html
+```

@@ -2,10 +2,10 @@ package com.inditex.pricing.infrastructure.db.service;
 
 import com.inditex.pricing.TestUtils;
 import com.inditex.pricing.domain.constants.ExceptionMessage;
-import com.inditex.pricing.domain.exception.PriceNotFoundException;
-import com.inditex.pricing.domain.model.Price;
 import com.inditex.pricing.infrastructure.db.repo.PriceRepository;
-import com.inditex.pricing.web.request.PriceRequest;
+import com.inditex.pricing.infrastructure.exception.PriceNotFoundException;
+import com.inditex.pricing.infrastructure.model.Price;
+import com.inditex.pricing.infrastructure.web.request.PriceRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,12 +35,12 @@ class GetPriceAdapterTest extends TestUtils {
      */
     @Test
     void testGetApplicablePrice_Success() throws PriceNotFoundException {
-        var expectedPrice = new Price(REAL_BRAND_ID, REAL_PRODUCT_ID, 1, LocalDateTime.parse("2020-06-15T16:00:00"),
+        Price expectedPrice = new Price(REAL_BRAND_ID, REAL_PRODUCT_ID, 1, LocalDateTime.parse("2020-06-15T16:00:00"),
                 LocalDateTime.parse("2020-12-31T23:59:59"), true, 38.95, "EUR");
 
         when(getPriceAdapter.getPrice(realRequest)).thenReturn(expectedPrice);
 
-        var result = getPriceAdapter.getApplicablePrice(realRequest);
+        Price result = getPriceAdapter.getApplicablePrice(realRequest);
 
         assertEquals(expectedPrice, result);
     }
@@ -49,7 +50,7 @@ class GetPriceAdapterTest extends TestUtils {
 
         when(getPriceAdapter.getPrice(realRequest)).thenReturn(null);
 
-        var exception = assertThrows(PriceNotFoundException.class, () -> {
+        Exception exception = assertThrows(PriceNotFoundException.class, () -> {
             getPriceAdapter.getApplicablePrice(realRequest);
         });
 
@@ -66,14 +67,14 @@ class GetPriceAdapterTest extends TestUtils {
      */
     @Test
     void testGetPrice() {
-        Price price = new Price();
+
         when(priceRepository.findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(anyInt(),
-                anyInt(), Mockito.<LocalDateTime>any(), Mockito.<LocalDateTime>any())).thenReturn(price);
+                anyInt(), Mockito.<LocalDateTime>any())).thenReturn(price);
 
         Price actualPrice = getPriceAdapter.getPrice(realRequest);
 
         verify(priceRepository).findFirstByProductIdAndBrandIdAndStartDateBeforeAndEndDateAfterOrderByPriorityDesc(eq(REAL_PRODUCT_ID),
-                eq(REAL_BRAND_ID), isA(LocalDateTime.class), isA(LocalDateTime.class));
+                eq(REAL_BRAND_ID), isA(LocalDateTime.class));
         assertSame(price, actualPrice);
     }
 }

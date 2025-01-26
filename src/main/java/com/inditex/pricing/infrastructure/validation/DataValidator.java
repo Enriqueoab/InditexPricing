@@ -1,13 +1,12 @@
-package com.inditex.pricing.domain.validation;
+package com.inditex.pricing.infrastructure.validation;
 
-import com.inditex.pricing.application.service.GetPriceUseCaseAdapter;
 import com.inditex.pricing.domain.constants.ExceptionMessage;
 import com.inditex.pricing.domain.constants.Regex;
-import com.inditex.pricing.domain.exception.DateTimeFormatException;
-import com.inditex.pricing.infrastructure.LoggerConfig;
+import com.inditex.pricing.infrastructure.exception.DateTimeFormatException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DataValidator {
@@ -16,10 +15,10 @@ public class DataValidator {
 
     public static boolean validateLocalDateTimeFormat(String dateTime) throws DateTimeFormatException {
         logger.info("Validating date: {}", dateTime);
-        var regex = Regex.ISO8601_DATE_FORMAT;
+        String regex = Regex.ISO8601_DATE_FORMAT;
 
-        var pattern = Pattern.compile(regex);
-        var matcher = pattern.matcher(dateTime);
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(dateTime);
         if (matcher.matches()) {
             return matcher.matches();
         }

@@ -1,4 +1,4 @@
-package com.inditex.pricing.web.response;
+package com.inditex.pricing.infrastructure.web.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -3,6 +3,7 @@ package com.inditex.pricing.infrastructure.config.security;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -35,13 +36,14 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Profile("!test")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 // To be able to display the h2 console
                 .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .authorizeHttpRequests(authz -> authz
-                .requestMatchers(apiVersion.concat("/price/**")).authenticated()
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**")
+                        .requestMatchers(apiVersion.concat("/prices/**")).authenticated()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**")
                         .permitAll()) // To allow Swagger and h2 without authentication
 
                 .httpBasic(Customizer.withDefaults());
@@ -49,6 +51,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Profile("!test")
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails user = User.builder()
                 .username(userName)
@@ -63,6 +66,15 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
+    @Bean
+    @Profile("test")
+    public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authz -> authz
+                        .anyRequest().permitAll()); // Allow all requests without authentication
+        return http.build();
+    }
 
 }
 
