@@ -1,11 +1,13 @@
 package com.inditex.pricing.domain.validation;
 
 import com.inditex.pricing.TestUtils;
-import com.inditex.pricing.domain.exception.DateTimeFormatException;
+import com.inditex.pricing.infrastructure.exception.DateTimeFormatException;
+import com.inditex.pricing.infrastructure.validation.DataValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

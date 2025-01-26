@@ -1,4 +1,4 @@
-package com.inditex.pricing.domain.model;
+package com.inditex.pricing.infrastructure.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +26,7 @@ public class Price {
 
     private double price;
 
-    private String curr; //TODO: Make it an enum
+    private String curr;
 
     public Price(int brandId, int productId, int priceList, LocalDateTime startDate, LocalDateTime endDate,
                  boolean priority, double price, String curr) {
@@ -45,34 +45,34 @@ public class Price {
     }
 
     public int getBrandId() {
-        return brandId;
+        return this.brandId;
     }
 
     public int getProductId() {
-        return productId;
+        return this.productId;
     }
 
     public int getPriceList() {
-        return priceList;
+        return this.priceList;
     }
 
     public LocalDateTime getStartDate() {
-        return startDate;
+        return this.startDate;
     }
 
     public LocalDateTime getEndDate() {
-        return endDate;
+        return this.endDate;
     }
 
     public boolean isPriority() {
-        return priority;
+        return this.priority;
     }
 
     public double getPrice() {
-        return price;
+        return this.price;
     }
 
     public String getCurr() {
-        return curr;
+        return this.curr;
     }
 }

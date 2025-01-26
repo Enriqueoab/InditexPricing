@@ -3,10 +3,10 @@ package com.inditex.pricing.application.service;
 import com.inditex.pricing.TestUtils;
 import com.inditex.pricing.application.ports.out.GetPricePort;
 import com.inditex.pricing.domain.constants.ExceptionMessage;
-import com.inditex.pricing.domain.exception.DateTimeFormatException;
-import com.inditex.pricing.domain.exception.PriceNotFoundException;
-import com.inditex.pricing.domain.model.Price;
-import com.inditex.pricing.web.request.PriceRequest;
+import com.inditex.pricing.infrastructure.exception.DateTimeFormatException;
+import com.inditex.pricing.infrastructure.exception.PriceNotFoundException;
+import com.inditex.pricing.infrastructure.web.request.PriceRequest;
+import com.inditex.pricing.infrastructure.web.response.PriceResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,17 +35,17 @@ class GetPriceUseCaseAdapterTest extends TestUtils {
      */
     @Test
     void testGetApplicablePrice() throws DateTimeFormatException, PriceNotFoundException {
-        when(getPricePort.getApplicablePrice(Mockito.<PriceRequest>any())).thenReturn(new Price());
+        when(getPricePort.getApplicablePrice(Mockito.<PriceRequest>any())).thenReturn(price);
 
-        var actualApplicablePrice = getPriceUseCaseAdapter
-                .getApplicablePrice(new PriceRequest(1, 1, "9999-99-99T99:99:99"));
+        PriceResponse actualApplicablePrice = getPriceUseCaseAdapter
+                .getApplicablePrice(new PriceRequest(PRODUCT_ID, BRAND_ID, "9999-99-99T99:99:99"));
 
         verify(getPricePort).getApplicablePrice(isA(PriceRequest.class));
-        assertNull(actualApplicablePrice.endDate());
-        assertNull(actualApplicablePrice.startDate());
-        assertEquals(0, actualApplicablePrice.brandId());
-        assertEquals(0, actualApplicablePrice.productId());
-        assertEquals(0.0d, actualApplicablePrice.price());
+        assertNotNull(actualApplicablePrice.endDate());
+        assertNotNull(actualApplicablePrice.startDate());
+        assertEquals(price.getBrandId(), actualApplicablePrice.brandId());
+        assertEquals(price.getProductId(), actualApplicablePrice.productId());
+        assertEquals(price.getPrice(), actualApplicablePrice.price());
     }
 
     /**

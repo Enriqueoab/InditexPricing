@@ -42,7 +42,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/price?productId=35455&brandId=1&applicationDate=2020-06-15T16:30:00",
+					"raw": "http://localhost:3000/v1/prices?productId=35455&brandId=1&applicationDate=2020-06-15T16:30:00",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -50,7 +50,7 @@
 					"port": "3000",
 					"path": [
 						"v1",
-						"price"
+						"prices"
 					],
 					"query": [
 						{
@@ -106,7 +106,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/price?productId=35455&brandId=1&applicationDate=2020-06-14T10:00:00",
+					"raw": "http://localhost:3000/v1/prices?productId=35455&brandId=1&applicationDate=2020-06-14T10:00:00",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -114,7 +114,7 @@
 					"port": "3000",
 					"path": [
 						"v1",
-						"price"
+						"prices"
 					],
 					"query": [
 						{
@@ -170,7 +170,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/price?productId=35455&brandId=1&applicationDate=2020-06-14T16:00:00",
+					"raw": "http://localhost:3000/v1/prices?productId=35455&brandId=1&applicationDate=2020-06-14T16:00:00",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -178,7 +178,7 @@
 					"port": "3000",
 					"path": [
 						"v1",
-						"price"
+						"prices"
 					],
 					"query": [
 						{
@@ -234,7 +234,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/price?productId=35455&brandId=1&applicationDate=2020-06-14T21:00:00",
+					"raw": "http://localhost:3000/v1/prices?productId=35455&brandId=1&applicationDate=2020-06-14T21:00:00",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -242,7 +242,7 @@
 					"port": "3000",
 					"path": [
 						"v1",
-						"price"
+						"prices"
 					],
 					"query": [
 						{
@@ -298,7 +298,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/price?productId=35455&brandId=1&applicationDate=2020-06-15T10:00:00",
+					"raw": "http://localhost:3000/v1/prices?productId=35455&brandId=1&applicationDate=2020-06-15T10:00:00",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -306,7 +306,7 @@
 					"port": "3000",
 					"path": [
 						"v1",
-						"price"
+						"prices"
 					],
 					"query": [
 						{
@@ -362,7 +362,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/price?productId=35455&brandId=1&applicationDate=2020-06-16T21:00:00",
+					"raw": "http://localhost:3000/v1/prices?productId=35455&brandId=1&applicationDate=2020-06-16T21:00:00",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -370,7 +370,7 @@
 					"port": "3000",
 					"path": [
 						"v1",
-						"price"
+						"prices"
 					],
 					"query": [
 						{
